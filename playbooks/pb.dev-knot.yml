@@ -1,0 +1,8 @@
+---
+- name: "DEV-KNOT AUTOMATE"
+  hosts: "localhost"
+  gather_facts: false
+  tasks:
+    - name: "HELLO FROM THE OTHER SIDE"
+      ansible.builtin.debug:
+        msg: "MUST HAVE CALLED A THOUSAND TIMES!"

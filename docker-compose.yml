@@ -1,0 +1,18 @@
+---
+version: "3.8"
+services:
+  test:
+    build:
+      target: "test"
+      context: "."
+  cli:
+    build:
+      target: "cli"
+      context: "."
+    working_dir: "/usr/src/app"
+    environment:
+      ANSIBLE_COLLECTIONS_PATH: "/usr/share/ansible/collections"
+      ANSIBLE_ROLES_PATH: "/usr/share/ansible/roles"
+    volumes:
+      - "./:/usr/src/app"
+    image: "${CLI_IMAGE:-docker.io/h4ndzdatm0ld/aws-app-runner-ansible-eda:cli}"

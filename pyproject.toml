@@ -1,0 +1,100 @@
+[tool.poetry]
+name = "aws-app-runner-ansible-eda"
+version = "0.1.0"
+description = "Ansible EDA with AWS App Runner"
+authors = ["Dev-Knot, LLC <htinoco@dev-knot.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+ansible-core = "*"
+Markdown = "3.3.4"
+netmiko = "^3.0.1"
+
+[tool.poetry.dev-dependencies]
+ansible-lint = "*"
+invoke = "*"
+bandit = "*"
+pylint = "*"
+pytest = "*"
+yamllint = "*"
+isort = "*"
+black = "*"
+pre-commit = "*"
+flakeheaven = "*"
+pydocstyle = "*"
+
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"
+
+[tool.pylint.master]
+ignore=[".venv", "conf.py"]
+
+[tool.pylint.basic]
+# No docstrings required for private methods (Pylint default), or for test_ functions, or for inner Meta classes.
+no-docstring-rgx="^(_|test_|Meta$)"
+
+[tool.pylint.messages_control]
+disable = """,
+    line-too-long,
+    """
+
+[tool.pylint.miscellaneous]
+notes = """,
+    FIXME,
+    TODO,
+    """
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
+addopts = "-vv --doctest-modules"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 120
+skip_gitignore = true
+# you can skip files as below
+#skip_glob = docs/conf.py
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | settings.py
+)
+'''
+
+[tool.flakeheaven.plugins]
+pycodestyle = ["+*"]
+pyflakes = ["+*"]
+
+# match by glob
+[tool.flakeheaven.exceptions."**/test_*.py"]
+pyflakes = ["-*"]
+
+[tool.flakeheaven]
+# make output beautiful
+format='colored'
+# 80 chars limit isn't enough in 21 century
+max_line_length=120
