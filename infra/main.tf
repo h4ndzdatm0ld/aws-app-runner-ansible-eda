@@ -24,7 +24,7 @@ resource "aws_ecr_repository" "ansible_eda" {
   }
 }
 
-resource "aws_apprunner_service" "aws-app-runner-ansible-eda" {
+resource "aws_apprunner_service" "app_ansible_eda" {
   service_name = "aws-app-runner-ansible-eda"
 
   source_configuration {
@@ -33,7 +33,7 @@ resource "aws_apprunner_service" "aws-app-runner-ansible-eda" {
         port = "5000"
       }
       image_identifier      = "${aws_ecr_repository.ansible_eda.repository_url}/${aws_ecr_repository.ansible_eda.name}:latest"
-      image_repository_type = "ECR"
+      image_repository_type = "ECR_PUBLIC"
     }
     auto_deployments_enabled = false
   }
