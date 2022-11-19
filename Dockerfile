@@ -1,12 +1,11 @@
 ##############
 # Dependencies
-FROM python:3.10 as base
-
-ARG DOCKER_DEFAULT_PLATFORM=linux/amd64
+FROM python:3.9 as base
 
 WORKDIR /usr/src/app
 
-# Install poetry for dep management
+RUN apt-get update && apt-get install -y libssh-dev python3-apt
+
 RUN pip install -U pip  && \
     curl -sSL https://install.python-poetry.org  | python3 -
 
@@ -14,19 +13,14 @@ ENV PATH="/root/.local/bin:$PATH"
 
 RUN poetry config virtualenvs.create false
 
-# Install project manifest
 COPY pyproject.toml poetry.lock ./
 
-# Install production dependencies
-RUN poetry install --no-root --no-dev
+RUN poetry install --no-root --only main
 
 FROM base AS test
 
-# Copy in the application code
 COPY . .
 
-# --no-root declares not to install the project package since we're wanting to take advantage of caching dependency installation
-# and the project is copied in and installed after this step
 RUN poetry install --no-interaction --no-ansi --no-root
 
 # Simple tests
@@ -43,11 +37,6 @@ RUN echo 'Running Flakeheaven' && \
     echo 'Running Bandit' && \
     bandit --recursive ./ --configfile .bandit.yml
 
-#############
-# Ansible Collections
-#
-# This installs the Ansible Collections from collections/requirements.yml
-# and the roles from roles/requirements.yml, as well as installing git.
 FROM base AS ansible
 
 WORKDIR /usr/src/app
@@ -70,21 +59,18 @@ RUN if [ -e roles/requirements.yml ]; then \
 # Final image
 #
 # This creates a runnable CLI container
-FROM python:3.10 AS cli
+FROM python:3.9-slim AS cli
 
 WORKDIR /usr/src/app
 
 COPY --from=base /usr/src/app /usr/src/app
-COPY --from=base /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=base /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
 COPY --from=base /usr/local/bin /usr/local/bin
 COPY --from=ansible /usr/share /usr/share
-COPY --from=openjdk:8-jre-slim /usr/local/openjdk-8 /usr/local/openjdk-8
+COPY --from=openjdk:20-slim /usr/local/openjdk-20 /usr/local/openjdk-20
 
 COPY . .
 
-ENV JAVA_HOME /usr/local/openjdk-8
-RUN export JAVA_HOME
-
-RUN ansible-playbook -i localhost, -c local ansible.eda.install_rulebook_cli
+ENV JAVA_HOME /usr/local/openjdk-20
 
 ENTRYPOINT ["ansible-rulebook"]
