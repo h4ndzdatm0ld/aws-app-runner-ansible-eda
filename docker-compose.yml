@@ -5,6 +5,21 @@ services:
     build:
       target: "test"
       context: "."
+  terraform:
+    env_file:
+      - ".env"
+    image: "hashicorp/terraform:latest"
+    network_mode: "host"
+    working_dir: "/usr/src/app"
+    environment:
+      # AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      # AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      TF_VAR_AWS_REGION: "${TF_VAR_AWS_REGION}"
+      TF_VAR_AWS_ACCESS_KEY_ID: "${TF_VAR_AWS_ACCESS_KEY_ID}"
+      TF_VAR_AWS_SECRET_ACCESS_KEY: "${TF_VAR_AWS_SECRET_ACCESS_KEY}"
+      TF_TOKEN_app_terraform_io: "${TF_TOKEN_app_terraform_io}"
+    volumes:
+      - "./infra/:/usr/src/app"
   cli:
     build:
       target: "cli"
