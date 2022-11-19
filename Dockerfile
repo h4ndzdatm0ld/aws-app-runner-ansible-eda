@@ -1,6 +1,6 @@
 ##############
 # Dependencies
-FROM python:3.10 as base
+FROM python:3.9 as base
 
 ARG DOCKER_DEFAULT_PLATFORM=linux/amd64
 
@@ -70,17 +70,18 @@ RUN if [ -e roles/requirements.yml ]; then \
 # Final image
 #
 # This creates a runnable CLI container
-FROM python:3.10 AS cli
+FROM python:3.9 AS cli
 
 WORKDIR /usr/src/app
 
 COPY --from=base /usr/src/app /usr/src/app
-COPY --from=base /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=base /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
 COPY --from=base /usr/local/bin /usr/local/bin
 COPY --from=ansible /usr/share /usr/share
 COPY --from=openjdk:8-jre-slim /usr/local/openjdk-8 /usr/local/openjdk-8
 
 COPY . .
+RUN pip install aiohttp
 
 ENV JAVA_HOME /usr/local/openjdk-8
 RUN export JAVA_HOME
