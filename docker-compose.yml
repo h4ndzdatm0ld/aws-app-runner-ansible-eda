@@ -16,3 +16,5 @@ services:
     volumes:
       - "./:/usr/src/app"
     image: "${CLI_IMAGE:-docker.io/h4ndzdatm0ld/aws-app-runner-ansible-eda:cli}"
+    ports:
+      - "5000"

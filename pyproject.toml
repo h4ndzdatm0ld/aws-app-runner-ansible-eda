@@ -9,6 +9,7 @@ python = "^3.8"
 ansible-core = "*"
 Markdown = "3.3.4"
 netmiko = "^3.0.1"
+ansible-pylibssh = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 ansible-lint = "*"

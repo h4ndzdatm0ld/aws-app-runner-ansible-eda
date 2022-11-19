@@ -1,4 +1,3 @@
 ---
 collections:
-  - name: "cisco.ios"
-    version: ">=2.8.1"
+  - name: "ansible.eda"

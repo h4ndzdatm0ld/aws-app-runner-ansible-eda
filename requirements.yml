@@ -1,6 +1,0 @@
----
-collections:
-  - name: "cisco.ios"
-    version: ">=2.8.1"
-roles:
-  - name: "ansible-network.network-engine"
