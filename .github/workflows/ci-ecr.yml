@@ -69,5 +69,5 @@ jobs:
           IMAGE_TAG: "latest"
         run: |
           export COMMIT_IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-          docker compose build
+          docker compose build cli
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
