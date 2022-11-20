@@ -15,6 +15,7 @@ concurrency:
 
 jobs:
   lint:
+    name: "Lint Code"
     strategy:
       matrix:
         python-versions: [3.9]
@@ -40,31 +41,36 @@ jobs:
       - name: Pydocstyle
         run: poetry run pydocstyle .
 
-  # build:
-  #   name: "BUILD IMAGE"
-  #   runs-on: "ubuntu-latest"
-  #   steps:
-  #     - name: Checkout repo
-  #       uses: actions/checkout@v3
+  build:
+    name: "Build Image & Publish to ECR"
+    needs:
+      - "lint"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout repo"
+        uses: "actions/checkout@v3"
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1 # More information on this action can be found below in the 'AWS Credentials' section
-  #       with:
-  #         role-to-assume: arn:aws:iam::123456789012:role/my-github-actions-role
-  #         aws-region: aws-region-1
+      - name: "Configure AWS credentials"
+        uses: a"ws-actions/configure-aws-credentials@v1" # More information on this action can be found below in the 'AWS Credentials' section
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-west-2"
 
-  #     - name: Login to Amazon ECR Public
-  #       id: login-ecr-public
-  #       uses: aws-actions/amazon-ecr-login@v1
-  #       with:
-  #         registry-type: public
+      - name: "Login to Amazon ECR Public"
+        id: "login-ecr-public"
+        uses: "aws-actions/amazon-ecr-login@v1"
+        with:
+          registry-type: "public"
 
-  #     - name: Build, tag, and push docker image to Amazon ECR Public
-  #       env:
-  #         REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
-  #         REGISTRY_ALIAS: my-ecr-public-registry-alias
-  #         REPOSITORY: my-ecr-public-repo
-  #         IMAGE_TAG: ${{ github.sha }}
-  #       run: |
-  #         docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
-  #         docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+      - name: "Build, tag, and push docker image to Amazon ECR Public"
+        env:
+          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          REGISTRY_ALIAS: "ansible-eda"
+          REPOSITORY: "ansible-eda"
+          # IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: "latest"
+        run: |
+          export COMMIT_IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker compose build
+          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
