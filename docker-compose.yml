@@ -6,8 +6,8 @@ services:
       target: "test"
       context: "."
   terraform:
-    env_file:
-      - ".env"
+    # env_file:
+    #   - ".env"
     image: "hashicorp/terraform:latest"
     network_mode: "host"
     working_dir: "/usr/src/app"
