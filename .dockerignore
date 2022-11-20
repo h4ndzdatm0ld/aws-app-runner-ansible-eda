@@ -2,6 +2,10 @@
 *.env
 environments/
 
+**/.git
+**/.DS_Store
+**/node_modules
+
 # Python
 **/*.pyc
 **/*.pyo
@@ -21,3 +25,9 @@ LICENSE
 **/.vscode/
 invoke*.yml
 tasks.py
+
+terraform
+.terraform
+**.terraform
+*.tf
+infra/

@@ -6,8 +6,8 @@ services:
       target: "test"
       context: "."
   terraform:
-    env_file:
-      - ".env"
+    # env_file:
+    #   - ".env"
     image: "hashicorp/terraform:latest"
     network_mode: "host"
     working_dir: "/usr/src/app"
@@ -28,7 +28,7 @@ services:
       ANSIBLE_ROLES_PATH: "/usr/share/ansible/roles"
     volumes:
       - "./:/usr/src/app"
-    image: "${CLI_IMAGE:-379654070973.dkr.ecr.us-west-2.amazonaws.com/ansible-eda/ansible-eda:latest}"
+    image: "${COMMIT_IMAGE:-h4ndatm0ld/ansible-eda:latest}"
     ports:
       - "5000:5000"
     command: "--rulebook rulebooks/rb-webhook-5000.yml -i inventories/dev/hosts.yml --verbose"

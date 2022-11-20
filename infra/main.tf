@@ -31,11 +31,12 @@ resource "aws_apprunner_service" "app_ansible_eda" {
     image_repository {
       image_configuration {
         port = "5000"
+        start_command = "docker run ${aws_ecr_repository.ansible_eda.repository_url}/${aws_ecr_repository.ansible_eda.name}:latest --rulebook rulebooks/rb-webhook-5000.yml -i inventories/dev/hosts.yml --verbose"
       }
       image_identifier      = "${aws_ecr_repository.ansible_eda.repository_url}/${aws_ecr_repository.ansible_eda.name}:latest"
       image_repository_type = "ECR_PUBLIC"
     }
-    auto_deployments_enabled = false
+    auto_deployments_enabled = true
   }
   health_check_configuration {
           healthy_threshold   = 1

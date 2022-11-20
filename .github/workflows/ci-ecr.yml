@@ -1,0 +1,73 @@
+---
+name: "CI-ECR"
+
+on: # yamllint disable
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+  workflow_dispatch:
+
+concurrency:
+  group: test-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: "Lint Code"
+    strategy:
+      matrix:
+        python-versions: [3.9]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-versions }}
+      - name: "Check out repository code"
+        uses: "actions/checkout@v2"
+      - name: "Setup environment"
+        uses: "networktocode/gh-action-setup-poetry-environment@v2"
+      - name: Lint
+        run: poetry run flakeheaven lint .
+      - name: Black
+        run: poetry run black --check --diff .
+      - name: Yamllint
+        run: poetry run yamllint .
+      - name: Pydocstyle
+        run: poetry run pydocstyle .
+
+  build:
+    name: "Build Image & Publish to ECR"
+    needs:
+      - "lint"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout repo"
+        uses: "actions/checkout@v3"
+
+      - name: "Configure AWS credentials"
+        uses: "aws-actions/configure-aws-credentials@v1" # More information on this action can be found below in the 'AWS Credentials' section
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-west-2"
+
+      - name: "Login to Amazon ECR Public"
+        id: "login-ecr-public"
+        uses: "aws-actions/amazon-ecr-login@v1"
+
+      - name: "Build, tag, and push docker image to Amazon ECR Public"
+        env:
+          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          REPOSITORY: "ansible-eda"
+          # IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: "latest"
+        run: |
+          export COMMIT_IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker compose build cli
+          docker push $COMMIT_IMAGE
