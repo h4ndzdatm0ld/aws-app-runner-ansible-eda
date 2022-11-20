@@ -70,4 +70,4 @@ jobs:
         run: |
           export COMMIT_IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           docker compose build cli
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $COMMIT_IMAGE
