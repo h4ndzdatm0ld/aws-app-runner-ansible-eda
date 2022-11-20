@@ -36,7 +36,7 @@ resource "aws_apprunner_service" "app_ansible_eda" {
       image_identifier      = "${aws_ecr_repository.ansible_eda.repository_url}/${aws_ecr_repository.ansible_eda.name}:latest"
       image_repository_type = "ECR"
     }
-    auto_deployments_enabled = true
+    auto_deployments_enabled = false
   }
   health_check_configuration {
           healthy_threshold   = 1
