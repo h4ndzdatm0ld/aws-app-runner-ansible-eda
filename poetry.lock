@@ -64,27 +64,27 @@ resolvelib = ">=0.5.3,<0.9.0"
 
 [[package]]
 name = "ansible-lint"
-version = "6.8.6"
+version = "6.8.7"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 
 [package.dependencies]
-ansible-compat = ">=2.2.4"
-ansible-core = ">=2.12.0"
+ansible-compat = ">=2.2.5"
+ansible-core = {version = ">=2.12.0", markers = "python_version >= \"3.9\""}
 black = ">=22.1.0"
 filelock = "*"
-jsonschema = ">=4.9.0"
+jsonschema = ">=4.17.0"
 packaging = "*"
-pyyaml = "*"
-rich = ">=9.5.1"
-"ruamel.yaml" = ">=0.15.34,<0.18"
-wcmatch = ">=7.0"
-yamllint = ">=1.25.0"
+pyyaml = ">=5.4.1"
+rich = ">=12.6.0"
+"ruamel.yaml" = ">=0.17.21,<0.18"
+wcmatch = ">=8.4.1"
+yamllint = ">=1.28.0"
 
 [package.extras]
-docs = ["myst-parser (>=0.16.1)", "pipdeptree (>=2.2.1)", "sphinx (>=4.4.0)", "sphinx-ansible-theme (>=0.9.1)", "sphinx-rtd-theme (>=1.0.0,<2.0.0)", "sphinxcontrib-apidoc (>=0.3.0)", "sphinxcontrib-programoutput2 (>=2.0a1)", "yamllint (>=1.26.3)"]
+docs = ["myst-parser (>=0.16.1)", "pipdeptree (>=2.2.1)", "sphinx (>=4.4.0)", "sphinx-ansible-theme (>=0.9.1)", "sphinx-rtd-theme (>=1.0.0,<2.0.0)", "sphinxcontrib-apidoc (>=0.3.0)", "sphinxcontrib-programoutput2 (>=2.0a1)"]
 test = ["coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "flaky (>=3.7.0)", "pytest (>=7.2.0)", "pytest-mock", "pytest-plus (>=0.2)", "pytest-xdist (>=2.1.0)", "psutil", "black", "mypy", "pylint", "flake8", "flake8-future-annotations"]
 
 [[package]]
@@ -1077,7 +1077,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "0bb16703b50f3f9a17fdf5e3a0c1cb7836dbcaca30ea71b6117109389e145a38"
+content-hash = "e929e8def5451e69817134c54557969d4b9535e8dae20a7ce749dc60e70024a7"
 
 [metadata.files]
 aiohttp = []
