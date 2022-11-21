@@ -43,6 +43,7 @@ jobs:
 
   build:
     name: "Build Image & Publish to ECR"
+    if: "github.ref == 'refs/heads/main'"
     needs:
       - "lint"
     runs-on: "ubuntu-latest"

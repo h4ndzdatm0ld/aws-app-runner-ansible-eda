@@ -26,8 +26,8 @@ resource "aws_iam_role_policy_attachment" "apprunner-service-role-attachment" {
 
 
 resource "aws_iam_role" "apprunner-instance-role" {
-  name = "${var.apprunner-service-role}AppRunnerInstanceRole"
-  path = "/"
+  name               = "${var.apprunner-service-role}AppRunnerInstanceRole"
+  path               = "/"
   assume_role_policy = data.aws_iam_policy_document.apprunner-instance-assume-policy.json
 }
 
@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "apprunner-instance-assume-policy" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["tasks.apprunner.amazonaws.com"]
     }
   }
