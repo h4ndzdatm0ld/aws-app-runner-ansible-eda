@@ -11,4 +11,4 @@
       condition: "event.payload.message == 'Ansible is super cool'"
       action:
         run_playbook:
-          name: "../playbooks/pb.dev-knot.yml"
+          name: "playbooks/pb.dev-knot.yml"

@@ -73,4 +73,7 @@ COPY . .
 
 ENV JAVA_HOME /usr/local/openjdk-20
 
+EXPOSE 5000/tcp
+EXPOSE 5000/udp
+
 ENTRYPOINT ["ansible-rulebook"]
