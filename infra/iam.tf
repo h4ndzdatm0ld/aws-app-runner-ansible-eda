@@ -41,3 +41,5 @@ data "aws_iam_policy_document" "apprunner-instance-assume-policy" {
     }
   }
 }
+
+curl -H 'Content-Type: application/json' -d "{\"message\": \"Ansible is super cool\"}" https://k5w3uxx7bb.us-west-2.awsapprunner.com:5000

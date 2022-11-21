@@ -37,10 +37,10 @@ resource "aws_apprunner_service" "app_ansible_eda" {
         port          = "5000"
         start_command = "--rulebook rulebooks/rb-webhook-5000.yml -i inventories/dev/hosts.yml --verbose"
       }
-      image_identifier      = "${aws_ecr_repository.ansible_eda.repository_url}/${aws_ecr_repository.ansible_eda.name}:latest"
+      image_identifier      = "${aws_ecr_repository.ansible_eda.repository_url}:latest"
       image_repository_type = "ECR"
     }
-    auto_deployments_enabled = false
+    auto_deployments_enabled = true
   }
   health_check_configuration {
     healthy_threshold   = 1
