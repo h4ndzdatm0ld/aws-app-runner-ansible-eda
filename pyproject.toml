@@ -23,6 +23,7 @@ black = "*"
 pre-commit = "*"
 flakeheaven = "*"
 pydocstyle = "*"
+flake8 = "*"
 
 [build-system]
 requires = ["poetry>=1.0"]
