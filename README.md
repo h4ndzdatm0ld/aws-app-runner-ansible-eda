@@ -1,6 +1,6 @@
 # Ansible Event Driven Automation with AWS App Runner!
 
-Ansible EDA with AWS App Runner Demo Project. Check out the associated blogpost! [Ansible EDA with AWS App Runner](www.dev-knot.com)
+Ansible EDA with AWS App Runner Demo Project. Check out the associated blogpost! [Ansible EDA with AWS App Runner](https://www.dev-knot.com)
 
 This repo has accomplished the following:
 
