@@ -1,8 +1,9 @@
 ---
-- name: "DEV-KNOT AUTOMATE"
-  hosts: "localhost"
+- name: "DEV-KNOT - ANSIBLE EDA"
+  hosts: "all"
+  connection: "local"
   gather_facts: false
   tasks:
-    - name: "HELLO FROM THE OTHER SIDE"
+    - name: "ANSIBLE EVENT DRIVEN AUTOMATION EXAMPLE"
       ansible.builtin.debug:
-        msg: "MUST HAVE CALLED A THOUSAND TIMES!"
+        msg: "I AM A TRIGGERED ACTION! I COULD BE DOING A WHOLE LOT!"

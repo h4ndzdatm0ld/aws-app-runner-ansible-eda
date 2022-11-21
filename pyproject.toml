@@ -2,13 +2,14 @@
 name = "aws-app-runner-ansible-eda"
 version = "0.1.0"
 description = "Ansible EDA with AWS App Runner"
-authors = ["Dev-Knot, LLC <htinoco@dev-knot.com>"]
+authors = ["Hugo Tinoco - Dev-Knot, LLC <htinoco@dev-knot.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-ansible-core = "*"
-Markdown = "3.3.4"
-netmiko = "^3.0.1"
+python = "^3.9"
+ansible-pylibssh = "^1.0.0"
+ansible-core = "^2.14.0"
+aiohttp = "^3.8.3"
+ansible-rulebook = "^0.9.4"
 
 [tool.poetry.dev-dependencies]
 ansible-lint = "*"

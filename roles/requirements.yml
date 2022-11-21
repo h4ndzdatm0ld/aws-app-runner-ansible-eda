@@ -1,7 +1,0 @@
----
-roles:
-  - src: "git@github.wellsfargo.com:ANSBL-ENSAutomation/ANSBL-Role-governance-snow-inventory"
-    scm: "git"
-    version: "release-0.1.0-prod"
-
-  - name: "ansible-network.network-engine"

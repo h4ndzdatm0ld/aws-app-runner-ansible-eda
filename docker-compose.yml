@@ -5,14 +5,27 @@ services:
     build:
       target: "test"
       context: "."
+  terraform:
+    image: "hashicorp/terraform:latest"
+    network_mode: "host"
+    working_dir: "/usr/src/app"
+    environment:
+      TF_TOKEN_app_terraform_io: "${TF_TOKEN_app_terraform_io}"
+    volumes:
+      - ".:/usr/src/app"
   cli:
     build:
       target: "cli"
       context: "."
     working_dir: "/usr/src/app"
+    container_name: "ansible-eda"
+    network_mode: "host"
     environment:
       ANSIBLE_COLLECTIONS_PATH: "/usr/share/ansible/collections"
       ANSIBLE_ROLES_PATH: "/usr/share/ansible/roles"
     volumes:
       - "./:/usr/src/app"
-    image: "${CLI_IMAGE:-docker.io/h4ndzdatm0ld/aws-app-runner-ansible-eda:cli}"
+    image: "${COMMIT_IMAGE:-h4ndatm0ld/ansible-eda:latest}"
+    ports:
+      - "5000"
+    command: "--rulebook rulebooks/rb-webhook-5000.yml -i inventories/dev/hosts.yml --verbose"
